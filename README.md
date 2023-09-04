@@ -66,7 +66,7 @@
 | Parameter | Type     |
 | :-------- | :------- |
 | `Name` | `string` | 
-| `Temperature` | `string` |
+| `Temperature` | `float` |
 | `Symptoms` | `string` | 
 | `Contact` | `boolean` |
 
