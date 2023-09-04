@@ -99,7 +99,7 @@ Go to the client directory
 Install dependencies
 
 ```bash
-  npm install
+  npm install vite
 ```
 
 Start the server
