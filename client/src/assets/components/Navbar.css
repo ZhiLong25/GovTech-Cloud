@@ -1,0 +1,17 @@
+.navbar {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+
+}
+
+.navbar a.active {
+  border-bottom: 2px solid #fff;
+}
+
+@media screen and (max-width: 700px) {
+  .navigation li {
+    display: none !important;
+  }
+}

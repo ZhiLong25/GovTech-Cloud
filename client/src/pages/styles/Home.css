@@ -1,0 +1,36 @@
+html body {
+    color: white !important;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: black!important;
+}
+
+.label {
+    color: black !important;
+}
+
+.css-1cl7zdz {
+    max-width: unset!important;
+}
+
+#name-label,  #temperature-label, #symptoms-label, #contact-label {
+    color:black!important;
+    font-weight: bold;
+    margin-top:20px;
+}
+
+.css-binzgt {
+    padding: 40px!important;
+}
+
+
+@media screen and (max-width: 700px) {
+    h3 {
+        font-size: 2.5rem !important;
+    }
+
+    h4 {
+        font-size: 2rem !important;
+    }
+}
