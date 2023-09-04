@@ -48,7 +48,6 @@ router.get("/", async (req, res) => {
     let list = await User.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        include: { model: User, as: "User", attributes: ['name'] }
     });
     res.json(list);
 });
