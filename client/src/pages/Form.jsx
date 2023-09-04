@@ -11,6 +11,26 @@ import http from '../http';
 function Form() {
     const navigate = useNavigate();
     const { setUser, user } = useContext(UserContext);
+
+    const checkIfUserExists = async (userName) => {
+        try {
+
+            const res = await http.get("http://localhost:3001/user");
+            const userNames = res.data.map((user) => user.Name.trim());
+            
+            // Check if the provided userName exists in the userNames array
+            for (var name of userNames) {
+                if (name === userName.Name) {
+                    
+                    return true; // User exists
+                }
+            }
+            return false; // User does not exist
+        } catch (error) {
+            return false; 
+        }
+    };
+
     const formik = useFormik({
         initialValues: {
             Name: "",
@@ -32,19 +52,29 @@ function Form() {
 
         }),
 
-        onSubmit: (data) => {
+        onSubmit: async (data) => {
             data.Name = data.Name.trim();
-            console.log("Press");
-            http.post("http://localhost:3001/record", data)
-                .then((res) => {
-                    console.log(res.data);
-                    navigate("/");
-                    toast.success('Record submitted successfully');
-                })
-                .catch(function (err) {
-                    toast.error(`${err.response.data.message}`);
-                });
+
+            const usersExist = await checkIfUserExists(data);
+            console.log(usersExist)
+            if (!usersExist) {
+                // If no users are found, show the error message
+                toast.error('No users found in the database');
+            } else {
+                // If users exist, proceed to post the record
+                console.log("Press");
+                http.post("http://localhost:3001/record", data)
+                    .then((res) => {
+                        console.log(res.data);
+                        navigate("/");
+                        toast.success('Record submitted successfully');
+                    })
+                    .catch(function (err) {
+                        toast.error(`${err.response.data.message}`);
+                    });
+            }
         }
+
     });
 
 
@@ -95,7 +125,7 @@ function Form() {
                     helperText={formik.touched.Symptoms && formik.errors.Symptoms}
                 />
 
-                <Typography id="contact-label" style={{ marginBottom: "15px"}}>Have you been in contact with anyone who is suspected to have/ has been diagnosed with Covid-19 within the last 14 days?</Typography>
+                <Typography id="contact-label" style={{ marginBottom: "15px" }}>Have you been in contact with anyone who is suspected to have/ has been diagnosed with Covid-19 within the last 14 days?</Typography>
                 <Select
                     fullWidth margin="normal"
                     labelId="contact-label"
@@ -104,10 +134,10 @@ function Form() {
                     onChange={formik.handleChange}
                     error={formik.touched.Contact && Boolean(formik.errors.Contact)}
                     helperText={formik.touched.Contact && formik.errors.Contact}
-                >   
+                >
                     <MenuItem value={true}>Yes</MenuItem>
                     <MenuItem value={false}>No</MenuItem>
-                    
+
                 </Select>
 
 
